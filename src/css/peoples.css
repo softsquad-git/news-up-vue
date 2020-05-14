@@ -1,0 +1,28 @@
+.peoples__list_content {
+  height: 300px;
+  position: relative;
+  background-size: cover;
+  background-position: center center;
+}
+.bg__peoples_list_content {
+  background: #0000004d;
+  height: 100%;
+}
+.bg__peoples_list_content_name {
+  text-align: center;
+  color: #fff;
+  font-size: 17px;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  padding: 5px;
+  background: #0000005c;
+}
+.header__peoples__list_content {
+  position: absolute;
+  z-index: 1;
+  width: 100%;
+  top: 0;
+}

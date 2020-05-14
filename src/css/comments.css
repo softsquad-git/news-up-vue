@@ -1,0 +1,45 @@
+.comments___list__author_avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.comments__list {
+    border: 1px solid #eae8e8;
+    box-shadow: 0px 3px 5px -1px rgb(169, 167, 167);
+    padding: 10px;
+    border-radius: 3px;
+    margin-bottom: 20px;
+}
+
+.comments__title {
+    font-size: 25px;
+    margin-bottom: 20px;
+}
+
+.comments___list_header_created {
+    float: right;
+    font-size: 12px;
+}
+
+.comments___list__author_fullname {
+    font-size: 15px;
+    font-weight: 500;
+    margin-left: 10px;
+}
+
+.comments__list_header {
+    border-bottom: 1px solid #e6e6e6;
+    padding-bottom: 8px;
+}
+
+.comments__list_content {
+    font-size: 14px;
+    padding: 5px 0 5px;
+}
+
+.comments__list_footer {
+    border-top: 1px solid #e6e6e6;
+    padding-top: 10px;
+    text-align: right;
+}

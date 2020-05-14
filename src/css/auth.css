@@ -1,0 +1,19 @@
+.login__card, .register__card {
+  padding: 15px;
+  margin-top: 50px;
+}
+
+.login__card .q-field {
+  margin-bottom: 20px;
+}
+
+.card__auth_title {
+  font-size: 20px;
+  border-bottom: 1px solid #eaeaea;
+  padding-bottom: 15px;
+}
+
+.login__card button {
+  display: block;
+  margin-top: 20px;
+}
