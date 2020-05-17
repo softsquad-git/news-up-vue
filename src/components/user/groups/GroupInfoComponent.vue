@@ -71,9 +71,9 @@
         let id = this.$route.params.id;
         this.$axios.post('user/groups/preview/' + id)
           .then((data) => this.group = data.data.data)
-          .catch((error) => {
+          .catch(() => {
             this.$q.notify({
-              message: 'Failed load data',
+              message: this.$t('notification.errors.loadData'),
               color: 'positive'
             })
           })
@@ -84,9 +84,9 @@
           .then((data) => {
             this.members = data.data.data
           })
-          .catch((error) => {
+          .catch(() => {
             this.$q.notify({
-              message: 'Failed load data',
+              message: this.$t('notification.errors.loadData'),
               color: 'negative'
             })
           })
@@ -95,9 +95,9 @@
         let id = this.$route.params.id;
         this.$axios.post(`user/groups/users/get/${id}?is_admin=true`)
           .then((data) => this.admins = data.data.data)
-          .catch((error) => {
+          .catch(() => {
             this.$q.notify({
-              message: 'Failed load data',
+              message: this.$t('notification.errors.loadData'),
               color: 'negative'
             })
           })
@@ -106,9 +106,9 @@
         let id = this.$route.params.id;
         this.$axios.post(`user/groups/users/get/${id}?is_author=true`)
           .then((data) => this.author = data.data.data)
-          .catch((error) => {
+          .catch(() => {
             this.$q.notify({
-              message: 'Failed load data',
+              message: this.$t('notification.errors.loadData'),
               color: 'negative'
             })
           })

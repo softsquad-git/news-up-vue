@@ -14,9 +14,9 @@
          <div class="preview-group-nav">
            <div class="row">
              <div class="col-xl-8 col-lg-8 col-md-8 col-sm-10 col-xs-12">
-               <q-btn @click="getCurrentInfo" :label="this.$t('account.pages.groups.subNavBar.info')" flat/>
-               <q-btn @click="getCurrentPosts" :label="this.$t('account.pages.groups.subNavBar.posts')" flat/>
-               <q-btn @click="getCurrentPhotos" :label="this.$t('account.pages.groups.subNavBar.photos')" flat/>
+               <q-btn @click="getCurrentInfo" :class="$q.dark.isActive ? 'account-color' : ''" :label="this.$t('account.pages.groups.subNavBar.info')" flat/>
+               <q-btn @click="getCurrentPosts" :class="$q.dark.isActive ? 'account-color' : ''" :label="this.$t('account.pages.groups.subNavBar.posts')" flat/>
+               <q-btn @click="getCurrentPhotos" :class="$q.dark.isActive ? 'account-color' : ''" :label="this.$t('account.pages.groups.subNavBar.photos')" flat/>
              </div>
              <div class="col-lg-4 text-right">
 
@@ -110,7 +110,7 @@
           })
           .catch(() => {
             this.$q.notify({
-              message: 'Failed load data',
+              message: this.$t('notification.errors.loadData'),
               color: 'negative'
             })
           })
@@ -123,7 +123,7 @@
           })
           .catch(() => {
             this.$q.notify({
-              message: 'Failed load data',
+              message: this.$t('notification.errors.loadData'),
               color: 'negative'
             })
           })

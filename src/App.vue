@@ -37,6 +37,9 @@ export default {
       size: '5px',
       position: 'bottom'
     });
-  }
+    if (localStorage.getItem('darkMode')) {
+      this.$q.dark.set(true);
+    }
+  },
 }
 </script>

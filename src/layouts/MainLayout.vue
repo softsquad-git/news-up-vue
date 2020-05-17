@@ -124,7 +124,7 @@
       content-class="bg-grey-2"
       :width="240"
       >
-      <q-scroll-area class="fit">
+      <q-scroll-area class="fit" :style="$q.dark.isActive ? 'background: #000' : ''">
         <q-list>
           <logo/>
           <q-separator class="q-my-md" />

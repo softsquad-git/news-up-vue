@@ -3,7 +3,7 @@
     <div class="profile__user_header">
       <div class="row mb-3">
         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-xs-12">
-          <div class="profile___user__header_title">
+          <div class="profile___user__header_title" :class="$q.dark.isActive ? 'account__title_dark' : ''">
             {{ this.$t('account.pages.titles.editArticle') }}
           </div>
         </div>
@@ -126,8 +126,7 @@
 </template>
 
 <script>
-  import {mapGetters} from 'vuex'
-  import Errors from "../../../common/Errors";
+  import Errors from "../../../common/ErrorsComponent";
   import { VueEditor, Quill } from "vue2-editor";
   import { ImageDrop } from "quill-image-drop-module";
   import ImageResize from 'quill-image-resize-vue';
@@ -157,27 +156,8 @@
         articleImages: [],
         images: '',
         files: '',
-      }
-    },
-    computed: {
-      ...mapGetters({
-        article: '_userShowArticle',
-        categories: '_userCategoriesArticle',
-        edit: '_userUpdateArticle',
-        errors: '_userErrorsArticle'
-      })
-    },
-    watch: {
-      article(){
-        this.data.title = this.article.title;
-        this.data.category_id = this.article.category_id;
-        this.data.content = this.article.content;
-        this.data.location = this.article.location;
-        this.data.is_comment = this.article.is_comment;
-        this.data.is_rating = this.article.is_rating;
-      },
-      edit(){
-        this.$router.push({ name: 'ArticlesListUser' })
+        errors: [],
+        categories: []
       }
     },
     methods: {
@@ -196,7 +176,16 @@
       },
       submitEditArticleForm(){
         if (this.data.id){
-          this.$store.dispatch('userUpdateArticleACTION', this.data)
+          this.$axios.post(`user/articles/update/${this.data.id}`, this.data)
+          .then((data) => {
+            if (data.data.success === 1){
+              this.$router.push({name: 'ArticlesListUser'});
+              this.$q.notify({
+                message: this.$t('account.pages.articles.notify.successUpdate'),
+                color: 'positive'
+              })
+            }
+          })
         }else {
           return alert('Error. Refresh page!')
         }
@@ -241,12 +230,30 @@
     },
     created() {
       if (this.$route.params.id){
-        this.$store.dispatch('userShowArticleACTION', this.$route.params.id);
+        this.$axios.post(`user/articles/item/${this.$route.params.id}`)
+        .then((data) => {
+          let article = data.data.data;
+          this.data.title = article.title;
+          this.data.category_id = article.category_id;
+          this.data.content = article.content;
+          this.data.location = article.location;
+          this.data.is_comment = article.is_comment;
+          this.data.is_rating = article.is_rating;
+        })
         this.getArticleImages();
       }else{
         this.$router.push({ name: 'ArticlesListUser' })
       }
-      this.$store.dispatch('userCategoriesArticleACTION')
+      this.$axios.post('user/articles/categories')
+      .then((data) => {
+        this.errors = data.data.data;
+      })
+      .catch(() => {
+        this.$q.notify({
+          message: this.$t('notification.errors.loadData'),
+          color: 'negative'
+        })
+      })
     }
   }
 </script>

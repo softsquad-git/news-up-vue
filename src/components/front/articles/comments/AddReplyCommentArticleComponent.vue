@@ -45,19 +45,21 @@
       },
       submitAddReplyCommentForm() {
         this.$axios.post('comments/reply/store', this.data)
-        .then(() => {
-          this.$q.notify({
-            message: this.$t('global.addReplyComment'),
-            color: 'positive'
-          });
-          this.data.content = '';
-          this.data.parent_id = '';
-          this.addReplyComment = false;
-          this.$parent.loadData();
-          this.data.comment_id = '';
+        .then((data) => {
+         if (data.data.success === 1) {
+           this.$q.notify({
+             message: this.$t('global.addReplyComment'),
+             color: 'positive'
+           });
+           this.data.content = '';
+           this.data.parent_id = '';
+           this.addReplyComment = false;
+           this.$parent.loadData();
+           this.data.comment_id = '';
+         }
         })
         .catch((error) => {
-          //
+          console.log(error.response.status)
         })
       }
     }

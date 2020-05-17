@@ -15,17 +15,14 @@
             </div>
           </div>
         </div>
-        <div v-else class="col-lg-12">
-            <no-data-component/>
-        </div>
+        <no-data-component/>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-  import NoDataComponent from "../../NoDataComponent";
-
+  import NoDataComponent from "src/common/NoDataComponent";
   export default {
     name: "FriendsProfilePageComponent",
     components: {NoDataComponent},

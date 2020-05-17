@@ -1,13 +1,13 @@
 <template>
   <q-page class="profile_user_page">
     <header>
-      <div class="p_u_p_welcome">
+      <div class="p_u_p_welcome" :class="$q.dark.isActive ? 'account__title_dark' : ''">
         {{ this.$t('account.welcome') }}, {{ user.s.name + ' ' + user.s.last_name }}
       </div>
     </header>
     <div class="row">
       <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12 padding-10">
-        <div class="p_u_p_box">
+        <div class="p_u_p_box" :class="$q.dark.isActive ? 'p_u_p_box_dark' : ''">
           <div class="row">
             <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-xs-2">
               <div class="p_u_p_box_icon">
@@ -31,7 +31,7 @@
         </div>
       </div>
       <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12 padding-10">
-        <div class="p_u_p_box">
+        <div class="p_u_p_box" :class="$q.dark.isActive ? 'p_u_p_box_dark' : ''">
           <div class="row">
             <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-xs-2">
               <div class="p_u_p_box_icon">
@@ -55,7 +55,7 @@
         </div>
       </div>
       <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 padding-10">
-        <div class="p_u_p_box">
+        <div class="p_u_p_box" :class="$q.dark.isActive ? 'p_u_p_box_dark' : ''">
           <div class="row">
             <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-xs-2">
               <div class="p_u_p_box_icon">
@@ -84,7 +84,7 @@
         <div class="p_u_p_info">
           <div class="q-table__top relative-position row items-center">
             <div class="q-table__control">
-              <div class="q-table__title">
+              <div class="q-table__title" :class="$q.dark.isActive ? 'account__title_dark' : ''">
                 {{ this.$t('account.information.title') }} <sub>
                 <router-link style="color: #8bc34a; font-size: 13px;" :to="{name: 'SettingsUser'}">
                   {{ this.$t('buttons.edit') }}
@@ -93,7 +93,7 @@
               </div>
             </div>
           </div>
-          <table class="q-table q-table--cell-separator q-table--bordered q-table--no-wrap">
+          <table class="q-table q-table--cell-separator q-table--bordered q-table--no-wrap" :class="$q.dark.isActive ? 'q-table_dark' : ''">
             <tbody>
             <tr>
               <td>{{ this.$t('account.information.user') }}</td>
@@ -127,7 +127,7 @@
       <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12 padding-10">
         <div class="row">
           <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
-            <div class="p_u_p_title">
+            <div class="p_u_p_title" :class="$q.dark.isActive ? 'account__title_dark' : ''">
               {{ this.$t('account.watching') }}
             </div>
             <div class="p_u_p_followed_nav">
@@ -194,7 +194,7 @@
             </div>
           </div>
           <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
-            <div class="p_u_p_title">
+            <div class="p_u_p_title" :class="$q.dark.isActive ? 'account__title_dark' : ''">
               {{ this.$t('account.watchingYou') }}
             </div>
             <div class="p_u_p_followed_box" style="margin-top: 30px;">

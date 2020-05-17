@@ -3,7 +3,7 @@
     <div class="profile__user_header">
       <div class="row">
         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-xs-12">
-          <div class="profile___user__header_title">
+          <div class="profile___user__header_title" :class="$q.dark.isActive ? 'account__title_dark' : ''">
             {{ this.$t('account.pages.titles.articles') }}
           </div>
         </div>
@@ -54,7 +54,7 @@
     <div class="profile__user_content">
       <div v-if="articles.data.length > 0" class="row">
         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 profile___user__article_list" v-for="article in articles.data">
-          <div class="profile__user_articles" v-bind:class="BindClassStatus(article.status)">
+          <div class="profile__user_articles" :class="$q.dark.isActive ? 'profile__user_articles-dark' : ''" v-bind:class="BindClassStatus(article.status)">
             <div class="row">
               <div class="col-xl-1 col-lg-1 col-md-2 col-sm-2 col-xs-3">
                 <div class="profile___user__article_image"
@@ -127,12 +127,8 @@
           </pagination>
         </div>
       </div>
-      <div v-else class="row">
-        <div class="col-lg-12">
-          <p class="no-data">
-            {{ this.$t('no_data') }}
-          </p>
-        </div>
+      <div v-else>
+        <no-data-component/>
       </div>
     </div>
     <show-article-user ref="ShowArticleUser"/>
@@ -140,13 +136,14 @@
 </template>
 
 <script>
-  import {mapGetters} from 'vuex';
   import ShowArticleUser from "./ShowArticleUser";
   import EditArticleUser from "./EditArticleUser";
+  import NoDataComponent from "src/common/NoDataComponent";
 
   export default {
     name: "ArticlesListUser",
     components: {
+      NoDataComponent,
       'show-article-user': ShowArticleUser,
       'edit-article-user': EditArticleUser
     },
@@ -164,21 +161,6 @@
         }
       }
     },
-    computed: {
-      ...mapGetters({
-        articles: '_userArticles',
-        archive: '_userArchiveArticle',
-        delete: '_userRemoveArticle'
-      })
-    },
-    watch: {
-      archive(){
-        this.loadData()
-      },
-      delete(){
-        this.loadData()
-      }
-    },
     methods: {
       loadData(status) {
         this.status = status;
@@ -188,12 +170,37 @@
         .then((data) => {
           this.articles = data.data;
         })
+        .catch(() => {
+          this.$q.notify({
+            message: this.$t('notification.errors.loadData'),
+            color: 'warning'
+          })
+        })
       },
       onArchive(id) {
-        this.$store.dispatch('userArchiveArticleACTION', id)
+        this.$axios.post(`user/articles/archive/${id}`)
+        .then((data) => {
+          if (data.data.success === 1) {
+            this.loadData();
+          }
+        })
+        .catch((error) => {
+          if (error.response.status === 422) {
+            //
+          }
+        })
       },
       onRemove(id) {
-        this.$store.dispatch('userRemoveArticleACTION', id)
+        this.$axios.post(`user/articles/remove/${id}`)
+        .then((data) => {
+          if (data.data.success === 1){
+            this.loadData();
+            this.$q.notify({
+              message: this.$t('account.pages.articles.notify.successRemove'),
+              color: 'positive'
+            })
+          }
+        })
       },
       onPreview(id){
         this.$refs.ShowArticleUser.loadData(id);

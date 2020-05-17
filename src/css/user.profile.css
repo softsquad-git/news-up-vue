@@ -47,3 +47,7 @@
     padding: 2px;
   }
 }
+.avatar--c-profile img {
+  width: 100%;
+  border-radius: 50%;
+}

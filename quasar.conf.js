@@ -23,7 +23,8 @@ module.exports = function (ctx) {
       'user.css',
       'user.profile.css',
       'peoples.css',
-      'home.page.css'
+      'home.page.css',
+      'dark.css'
     ],
 
     // https://github.com/quasarframework/quasar/tree/dev/extras

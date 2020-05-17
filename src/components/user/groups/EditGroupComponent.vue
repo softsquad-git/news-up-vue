@@ -3,7 +3,7 @@
     <div class="profile__user_header">
       <div class="row mb-3">
         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-xs-12">
-          <div class="profile___user__header_title">
+          <div class="profile___user__header_title" :class="$q.dark.isActive ? 'account__title_dark' : ''">
             {{ title }}
           </div>
         </div>
@@ -111,9 +111,9 @@
             this.data.type = group.type;
             this.data.is_accept_post = group.is_accept_post;
           })
-          .catch((error) => {
+          .catch(() => {
             this.$q.notify({
-              message: 'Failed load data',
+              message: this.$t('notification.errors.loadData'),
               color: 'negative'
             });
             this.$router.push({name: 'GroupsUser'});
@@ -137,18 +137,23 @@
       saveData(data) {
         let id = this.$route.params.id;
         this.$axios.post(`user/groups/update/${id}`, data)
-          .then(() => {
-            this.$q.notify({
-              message: this.$t('notification.success.successOperation'),
-              color: 'positive'
-            });
-            this.$router.push({name: 'GroupsUser'})
+          .then((data) => {
+            if (data.data.success === 1) {
+              this.$q.notify({
+                message: this.$t('account.groups.notify.successEditGroup'),
+                color: 'positive'
+              });
+              this.$router.push({name: 'GroupsUser'})
+            }
           })
           .catch((error) => {
-            this.$q.notify({
-              message: this.$t('notification.errors.validData'),
-              color: 'negative'
-            })
+            if (error.response.status === 422) {
+              this.errors = error.response.data.errors;
+              this.$q.notify({
+                message: this.$t('notification.errors.validData'),
+                color: 'negative'
+              })
+            }
           })
       }
     },

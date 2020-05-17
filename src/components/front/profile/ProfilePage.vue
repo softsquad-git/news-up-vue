@@ -2,11 +2,11 @@
 
   <div class="row q-tabs__content--align-center" style="margin-top: 50px;">
     <div class="col-xl-9 col-lg-9 col-md-10 col-sm-12 col-xs-12">
-      <div class="__card__profile__page__">
+      <div class="__card__profile__page__" :class="$q.dark.isActive ? '__card__profile__page__-dark' : ''">
         <div class="row">
           <div class="col-xl-2 col-lg-2 col-md-3 col-sm-4 col-xs-12">
             <div class="__card__profile__sidebar">
-              <div class="__profile__sidebar__avatar">
+              <div class="__profile__sidebar__avatar" :class="$q.dark.isActive ? '__profile__sidebar__avatar-dark' : ''">
                 <img :src="user.avatar" :alt="user.s.name"/>
               </div>
               <div class="__profile__sidebar__full_name">
@@ -49,7 +49,6 @@
 </template>
 
 <script>
-  import {mapGetters} from 'vuex'
   import ProfilePageCurrentComponent from "./ProfilePageCurrentComponent";
   import ArticlesProfilePageComponent from "./ArticlesProfilePageComponent";
   import InformationProfilePageComponent from "./InformationProfilePageComponent";
@@ -60,23 +59,24 @@
     name: "ProfilePage",
     data() {
       return {
-        currentComponent: ProfilePageCurrentComponent
+        currentComponent: ProfilePageCurrentComponent,
+        user: {}
       }
-    },
-    computed: {
-      ...mapGetters({
-        'user': 'userP'
-      })
-    },
-    watch: {
-      //
     },
     methods: {
       go(){
         this.currentComponent = ProfilePageCurrentComponent;
       },
       loadData() {
-        this.$store.dispatch('getUserP', this.$route.params.id);
+        this.$axios.post(`profile-page/user/${this.$route.params.id}`)
+        .then((data) => {
+          this.user = data.data.data
+        })
+        .catch(() => {
+          this.$q.notify({
+            message: this.$t('notification.errors.loadData')
+          })
+        })
       },
       goToArticlesP()
       {

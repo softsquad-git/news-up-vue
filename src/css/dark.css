@@ -1,0 +1,45 @@
+.account__title_dark {
+  color: #8bc34a;
+}
+.p_u_p_box_dark {
+  background: #1d1d1d!important;
+  border: 1px solid #2d2d2d!important;
+}
+.q-table_dark {
+  color: #f6f6f6!important;
+}
+.profile__user_articles-dark {
+  border: 1px solid #989898!important;
+  box-shadow: none!important;
+  color: #8bc34a!important;
+}
+.text-light {
+  color: #fff!important;
+}
+.groups-list-header-name_dark a {
+  color: #8bc34a!important;
+}
+.account-color{
+  color: #8bc34a!important;
+}
+.posts-group_dark {
+  box-shadow: none;
+  color: #8bc34a;
+  border: 1px solid #bbff6c4a;
+  border-radius: 3px;
+}
+.posts-group-author_dark a {
+  color: #8bc34a;
+}
+.article-content_dark {
+  border: 1px solid #585858;
+  box-shadow: none;
+}
+.__card__profile__page__-dark {
+  border: 1px solid #7d7d7d;
+  border-radius: 3px;
+  box-shadow: none;
+}
+.__profile__sidebar__avatar-dark img {
+  box-shadow: none;
+}

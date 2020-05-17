@@ -25,7 +25,6 @@
 
 
 <script>
-  import {mapGetters} from 'vuex'
   import AlbumsPhotoUserComponent from "./AlbumsPhotoUserComponent";
 
   export default {
@@ -35,16 +34,6 @@
       return {
         album_id: '',
         images: []
-      }
-    },
-    computed: {
-      ...mapGetters({
-        deletePhoto: 'removePhoto',
-      })
-    },
-    watch: {
-      deletePhoto() {
-        this.loadData();
       }
     },
     methods: {
@@ -62,7 +51,18 @@
         //
       },
       removePhoto(id) {
-        this.$store.dispatch('removePhotoACTION', id)
+        this.$axios.post(`user/photos/remove/${id}`)
+        .then((data) => {
+          if (data.data.success === 1) {
+            this.loadData();
+          }
+        })
+        .catch(() => {
+          this.$q.notify({
+            message: this.$t('notification.errors.invalid'),
+            color: 'negative'
+          })
+        })
       }
     }
   }

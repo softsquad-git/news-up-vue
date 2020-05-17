@@ -1,5 +1,4 @@
 <template>
-
   <div>
     <q-btn
       @click="setFollow"
@@ -10,12 +9,9 @@
       <q-badge floating :color="follow_ch ? 'lime-6' : 'white'" text-color="black">{{ c_follows }}</q-badge>
     </q-btn>
   </div>
-
 </template>
 
 <script>
-  import {mapGetters} from 'vuex'
-
   export default {
     name: "FollowArticleComponent",
     data() {
@@ -35,22 +31,24 @@
     mounted() {
       this.followOrNot()
     },
-    computed: {
-      ...mapGetters({
-        follow: 'follow',
-        errors: 'errorsFollow'
-      })
-    },
-    watch: {
-      follow() {
-        this.followOrNot();
-        this.$parent.loadData()
-      }
-    },
     methods: {
       setFollow() {
         if (localStorage.getItem('token')){
-          this.$store.dispatch('setFollow', this.data)
+          this.$axios.post('follow', this.data)
+          .then((data) => {
+            if (data.data.success === 1) {
+              this.followOrNot();
+              this.$parent.loadData();
+            }
+          })
+          .catch((error) => {
+            if (error.response.status === 422) {
+              this.$q.notify({
+                message: this.$t('notification.info.reloadPage'),
+                color: 'warning'
+              })
+            }
+          })
         } else {
           this.$q.notify({
             message: this.$t('errors.please_login'),

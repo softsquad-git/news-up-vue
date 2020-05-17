@@ -3,7 +3,7 @@
     <div class="profile__user_header">
       <div class="row">
         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-xs-12">
-          <div class="profile___user__header_title">
+          <div class="profile___user__header_title" :class="$q.dark.isActive ? 'account__title_dark' : ''">
             {{ title }}
           </div>
         </div>
@@ -38,11 +38,11 @@
       <div class="row">
         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-bottom: 20px;"
              v-for="group in groups">
-          <div class="groups-list">
+          <div class="groups-list" :class="$q.dark.isActive ? 'text-light' : ''">
             <div class="groups-list-header">
               <div class="row">
                 <div class="col-xl-8 col-lg-8 col-md-8 col-sm-7 col-xs-7">
-                  <div class="groups-list-header-name">
+                  <div class="groups-list-header-name" :class="$q.dark.isActive ? 'groups-list-header-name_dark' : ''">
                     <router-link :to="{name: 'PreviewGroup', params: {id: group.id, name: group.name}}"> {{ group.name}}
                     </router-link>
                   </div>
@@ -116,23 +116,25 @@
           })
           .catch(() => {
             this.$q.notify({
-              message: 'Failed load data',
+              message: this.$t('notification.errors.loadData'),
               color: 'negative'
             })
           })
       },
       onRemoveGroup(id) {
         this.$axios.post(`user/groups/remove/${id}`)
-          .then(() => {
-            this.loadData();
-            this.$q.notify({
-              message: 'Removed group success',
-              color: 'positive'
-            })
+          .then((data) => {
+            if (data.data.success === 1) {
+              this.loadData();
+              this.$q.notify({
+                message: this.$t('account.groups.notify.removeGroup'),
+                color: 'positive'
+              })
+            }
           })
-          .catch((error) => {
+          .catch(() => {
             this.$q.notify({
-              message: 'Something went wrong',
+              message: this.$t('notification.errors.invalid'),
               color: 'negative'
             })
           })

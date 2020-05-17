@@ -3,7 +3,7 @@
     <div class="profile__user_header">
       <div class="row mb-3">
         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-xs-12">
-          <div class="profile___user__header_title">
+          <div class="profile___user__header_title" :class="$q.dark.isActive ? 'account__title_dark' : ''">
             {{ titles.createGroup }}
           </div>
         </div>
@@ -77,7 +77,7 @@
 </template>
 
 <script>
-  import Errors from "../../../common/Errors";
+  import Errors from "../../../common/ErrorsComponent";
 
   export default {
     name: "AddGroupComponent",
@@ -123,19 +123,28 @@
       },
       saveData(data) {
         this.$axios.post('user/groups/store', data)
-          .then(() => {
-            this.$q.notify({
-              message: this.$t('notification.success.successOperation'),
-              color: 'positive'
-            });
-            this.data.name = '';
-            this.data.description = '';
-            this.data.type = '';
-            this.data.bg_image = '';
-            this.data.is_accept_post = '';
-            this.$router.push({ name: 'GroupsUser' })
+          .then((data) => {
+            if (data.data.success === 1) {
+              this.$q.notify({
+                message: this.$t('account.groups.notify.successCreateGroup'),
+                color: 'positive'
+              });
+              this.data.name = '';
+              this.data.description = '';
+              this.data.type = '';
+              this.data.bg_image = '';
+              this.data.is_accept_post = '';
+              this.$router.push({ name: 'GroupsUser' })
+            }
           })
-          .catch(() => {
+          .catch((error) => {
+            if (error.response.status === 422) {
+              this.errors = error.response.data.errors;
+              this.$q.notify({
+                color: 'negative',
+                message: this.$t('notification.errors.validData')
+              });
+            }
           })
       }
     }

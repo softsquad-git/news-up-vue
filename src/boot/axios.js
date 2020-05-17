@@ -1,9 +1,8 @@
 import Vue from 'vue'
 import axios from 'axios'
-
 Vue.prototype.$axios = axios;
 
-axios.defaults.baseURL = 'http://127.0.0.1:8001/api/';
+axios.defaults.baseURL = 'http://127.0.0.1:8000/api/';
 window.axios = axios;
 
 let jwtToken = localStorage.getItem('token');

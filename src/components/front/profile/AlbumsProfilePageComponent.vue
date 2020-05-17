@@ -24,29 +24,29 @@
 </template>
 
 <script>
-  import {mapGetters} from 'vuex'
-
   export default {
     name: "AlbumsProfilePageComponent",
     data() {
       return {
-        images: []
+        images: [],
+        albums: []
       }
-    },
-    computed: {
-      ...mapGetters({
-        albums: 'albumsUserP',
-      })
     },
     props: {
       user_id: ''
     },
-    watch: {
-      //
-    },
     methods: {
       loadData() {
-        this.$store.dispatch('getAlbumsUserP', this.user_id)
+        this.$axios.post(`profile-page/albums?user_id=${this.user_id}`)
+        .then((data) => {
+          this.albums = data.data.data
+        })
+        .catch(() => {
+          this.$q.notify({
+            message: this.$t('notification.errors.loadData'),
+            color: 'warning'
+          })
+        })
       },
       loadImagesFromAlbum(album_id){
         this.$axios.post('profile-page/photos?album_id='+album_id)

@@ -24,14 +24,9 @@ color: rgba(8, 8, 8, 0.79);
 
 .no-data {
   text-align: center;
-  background: #ff7070;
-  padding: 10px;
-  border: 1px solid #e6e6e6;
-  border-radius: 5px;
   font-size: 16px;
-  color: #f3f3f3;
-  font-weight: bold;
-  letter-spacing: 1px;
+  padding: 10px;
+  color: #c56f6f;
 }
 
 .errors_list {

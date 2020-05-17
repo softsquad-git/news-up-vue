@@ -32,7 +32,9 @@
         </tr>
         <tr>
           <td>{{ this.$t('profilePage.pages.information.sex.title') }}</td>
-          <td>{{ user.s.sex === 'MALE' ? this.$t('profilePage.pages.information.sex.male') : this.$t('profilePage.pages.information.sex.female') }}</td>
+          <td>{{ user.s.sex === 'MALE' ? this.$t('profilePage.pages.information.sex.male') :
+            this.$t('profilePage.pages.information.sex.female') }}
+          </td>
         </tr>
         <tr>
           <td>{{ this.$t('profilePage.pages.information.created') }}</td>
@@ -45,21 +47,28 @@
 </template>
 
 <script>
-  import {mapGetters} from 'vuex'
   export default {
     name: "InformationProfilePageComponent",
     data() {
       return {
-        //
+        user: {}
       }
     },
-    computed: {
-      ...mapGetters({
-        user: 'userP'
-      })
+    methods: {
+      loadData() {
+        this.$axios.post(`profile-page/user/${this.$route.params.id}`)
+          .then((data) => {
+            this.user = data.data.data
+          })
+          .catch(() => {
+            this.$q.notify({
+              message: this.$t('notification.errors.loadData')
+            })
+          })
+      },
     },
     created() {
-      this.$parent.loadData()
+      this.loadData()
     }
   }
 </script>

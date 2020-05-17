@@ -17,7 +17,7 @@
       <div class="row">
         <div v-for="article in articlesInCategory.slice(0, 4)" class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-xs-12 padding-10">
           <div class="home___trending__articles_img" v-bind:style="{ backgroundImage: 'url(' + article.image + ')' }"></div>
-          <router-link :to="{ name: 'Article', params: { id: article.id, title: article.title } }" class="home___trending__articles_title">
+          <router-link :to="{ name: 'Article', params: { id: article.id, title: article.title } }" class="home___trending__articles_title" :style="$q.dark.isActive ? 'color: #969696 !important' : ''">
             {{ article.title }}
           </router-link>
           <div class="home___trending__articles_created">
@@ -33,7 +33,7 @@
                     <div class="home____trending___articles__list_img" v-bind:style="{ backgroundImage: 'url(' + article.image + ')' }"></div>
                   </div>
                   <div class="col-xl-9 col-lg-9 col-md-9 col-sm-9 col-xs-9">
-                    <router-link :to="{ name: 'Article', params: { id: article.id, title: article.title } }" class="home___trending__articles_title">
+                    <router-link :to="{ name: 'Article', params: { id: article.id, title: article.title } }" class="home___trending__articles_title" :style="$q.dark.isActive ? 'color: #969696 !important' : ''">
                       {{ article.title }}
                     </router-link>
                     <div class="home___trending__articles_created">
@@ -50,7 +50,7 @@
                 <div class="home____trending___articles__list_img" v-bind:style="{ backgroundImage: 'url(' + article.image + ')' }"></div>
               </div>
               <div class="col-xl-9 col-lg-9 col-md-9 col-sm-9 col-xs-9">
-                <router-link :to="{ name: 'Article', params: { id: article.id, title: article.title } }" class="home___trending__articles_title">
+                <router-link :to="{ name: 'Article', params: { id: article.id, title: article.title } }" class="home___trending__articles_title" :style="$q.dark.isActive ? 'color: #969696 !important' : ''">
                   {{ article.title }}
                 </router-link>
                 <div class="home___trending__articles_created">
@@ -67,7 +67,7 @@
                 <div class="home____trending___articles__list_img" v-bind:style="{ backgroundImage: 'url(' + article.image + ')' }"></div>
               </div>
               <div class="col-xl-9 col-lg-9 col-md-9 col-sm-9 col-xs-9">
-                <router-link :to="{ name: 'Article', params: { id: article.id, title: article.title } }" class="home___trending__articles_title">
+                <router-link :to="{ name: 'Article', params: { id: article.id, title: article.title } }" class="home___trending__articles_title" :style="$q.dark.isActive ? 'color: #969696 !important' : ''">
                   {{ article.title }}
                 </router-link>
                 <div class="home___trending__articles_created">

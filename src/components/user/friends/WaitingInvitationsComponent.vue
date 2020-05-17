@@ -28,29 +28,29 @@
 </template>
 
 <script>
-  import {mapGetters} from 'vuex'
-  import NoDataComponent from "../../NoDataComponent";
   import DeleteFriendComponent from "./DeleteFriendComponent";
+  import NoDataComponent from "src/common/NoDataComponent";
 
   export default {
     name: "WaitingInvitationsComponent",
-    components: {DeleteFriendComponent, NoDataComponent},
+    components: {NoDataComponent, DeleteFriendComponent},
     data() {
       return {
-        //
+        friends: []
       }
-    },
-    computed: {
-      ...mapGetters({
-        friends: 'waitingInvitations'
-      })
-    },
-    watch: {
-      //
     },
     methods: {
       loadData() {
-        this.$store.dispatch('getWaitingInvitations')
+        this.$axios.post('user/friends/waiting')
+        .then((data) => {
+          this.friends = data.data.data;
+        })
+        .catch(() => {
+          this.$q.notify({
+            message: this.$t('notification.errors.loadData'),
+            color: 'negative'
+          })
+        })
       },
       acceptInvitation(id) {
         this.$axios.post(`user/friends/accept/${id}`)

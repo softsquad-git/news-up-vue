@@ -4,7 +4,7 @@
       <div class="col-xl-11 col-lg-11 col-md-11 col-sm-11 col-xs-11">
         <div class="row">
           <div class="col-xl-9 col-lg-9 col-md-8 col-sm-12 col-xs-12">
-            <div class="article__content">
+            <div class="article__content" :class="$q.dark.isActive ? 'article-content_dark' : ''">
               <div class="row">
                 <div class="col-xl-11 col-lg-11 col-md-11 col-sm-12 col-xs-12">
                   <div class="article__content_title">
@@ -77,7 +77,7 @@
                 />
                 <router-link
                   :to="{ name: 'ProfilePage', params: { id: article.user_id } }"
-                  class="article___sidebar__user_fullname">
+                  class="article___sidebar__user_fullname" :style="$q.dark.isActive ? 'color: #e6e6e6!important' : ''">
                   {{ article.user.s.name + ' ' + article.user.s.last_name }}
                 </router-link>
                 <q-btn size="10px"

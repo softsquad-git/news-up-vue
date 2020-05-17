@@ -3,7 +3,7 @@
     <div class="profile__user_header">
       <div class="row mb-3">
         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-xs-12">
-          <div class="profile___user__header_title">
+          <div class="profile___user__header_title" :class="$q.dark.isActive ? 'account__title_dark' : ''">
             {{ this.$t('account.pages.titles.createArticle') }}
           </div>
         </div>
@@ -107,7 +107,7 @@
 
 <script>
   import {mapGetters} from 'vuex'
-  import Errors from "../../../common/Errors";
+  import Errors from "../../../common/ErrorsComponent";
   import {VueEditor, Quill} from "vue2-editor";
   import {ImageDrop} from "quill-image-drop-module";
   import ImageResize from 'quill-image-resize-vue';
@@ -135,7 +135,9 @@
             imageDrop: true,
             imageResize: {},
           }
-        }
+        },
+        errors: [],
+        categories: []
       }
     },
     computed: {
@@ -172,11 +174,19 @@
       },
       saveData(data) {
         this.$axios.post('user/articles/store', data)
-          .then(() => {
-            this.$router.push({name: 'ArticlesListUser'})
+          .then((data) => {
+            if (data.data.success === 1) {
+              this.$router.push({name: 'ArticlesListUser'})
+            }
           })
           .catch((error) => {
-            //
+            if (error.response.status === 422) {
+              this.errors = error.response.data.errors;
+              this.$q.notify({
+                message: this.$t('notification.errors.validData'),
+                color: 'warning'
+              })
+            }
           })
       },
       handleImageAdded: function (file, Editor, cursorLocation, resetUploader) {
@@ -197,7 +207,16 @@
       }
     },
     created() {
-      this.$store.dispatch('userCategoriesArticleACTION');
+      this.$axios.post('user/articles/categories')
+      .then((data) => {
+        this.categories = data.data.data;
+      })
+      .catch(() => {
+        this.$q.notify({
+          message: this.$t('notification.errors.loadData'),
+          color: 'warning'
+        })
+      })
     }
   }
 </script>

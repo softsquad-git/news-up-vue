@@ -20,7 +20,11 @@
           <div class="row no-wrap q-pa-md">
             <div class="column">
               <div class="text-h6 q-mb-md">Ustawienia</div>
-              <q-toggle v-model="serviceDarkBG" label="Ciemny motyw" />
+              <form @submit.prevent="setTemplateColor">
+                <q-toggle v-model="serviceDarkBG" label="Ciemny motyw" />
+                <br/>
+                <q-btn type="submit" flat size="sm" :label="this.$t('buttons.save')"/>
+              </form>
             </div>
 
             <q-separator vertical inset class="q-mx-lg" />
@@ -35,7 +39,7 @@
               <q-btn
                 :to="{name: 'LogoutUser'}"
                 color="negative"
-                label="Logout"
+                label="Wyloguj się"
                 size="sm"
                 v-close-popup
               />
@@ -114,12 +118,36 @@
       return {
         leftDrawerOpen: false,
         user: {},
-        serviceDarkBG: false
+        serviceDarkBG: localStorage.getItem('darkMode') ? true : false
       }
     },
     mounted() {
       this.$axios.post('user')
-      .then((data) => this.user = data.data.data)
+      .then((data) => this.user = data.data.data);
+    },
+    methods: {
+      setTemplateColor(){
+        let mode;
+        if (this.serviceDarkBG === true)
+          mode = 1;
+        else
+          mode = 0;
+        this.$axios.post(`user/settings/set-template-mode/${mode}`)
+        .then((data) => {
+          if (data.data.mode === true)
+            localStorage.setItem('darkMode', 1);
+          else
+            localStorage.removeItem('darkMode');
+          window.location.reload();
+        })
+        .catch(() => {
+          this.$q.notify({
+            message: this.$t('notification.errors.invalid'),
+            color: 'negative'
+          })
+          localStorage.setItem('darkMode', 0);
+        })
+      }
     }
   }
 </script>

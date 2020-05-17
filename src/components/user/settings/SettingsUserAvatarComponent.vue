@@ -1,7 +1,7 @@
 <template>
   <div class="row">
     <div class="col-lg-12">
-      <div v-on:click="vShowUploadAvatar ^= true" class="profile__user__edit__avatar_title">
+      <div v-on:click="vShowUploadAvatar ^= true" class="profile__user__edit__avatar_title" :class="$q.dark.isActive ? 'account__title_dark' : ''">
         {{ this.$t('account.pages.settings.avatar.title') }}
         <q-icon class="float-right" style="margin-top: 5px;color: green" name="create"/>
       </div>

@@ -3,7 +3,7 @@
     <div class="profile__user_header">
       <div class="row mb-3">
         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
-          <div class="profile___user__header_title">
+          <div class="profile___user__header_title" :class="$q.dark.isActive ? 'account__title_dark' : ''">
             {{ this.$t('account.pages.titles.albums') }}
           </div>
         </div>
@@ -88,7 +88,6 @@
 </template>
 
 <script>
-  import {mapGetters} from 'vuex'
   import AddAlbumPhotoUserComponent from "./AddAlbumPhotoUserComponent";
   import ViewDescriptionAlbum from "./ViewDescriptionAlbum";
   import AddPhotosUserComponent from "./AddPhotosUserComponent";
@@ -123,21 +122,6 @@
         viewEditForm: false
       }
     },
-    computed: {
-      ...mapGetters({
-        delAlbum: 'removeAlbum',
-        updateAlbum: 'updateAlbum'
-      })
-    },
-    watch: {
-      delAlbum(){
-        this.loadData();
-      },
-      updateAlbum(){
-        this.loadData();
-        this.viewEditForm = false;
-      }
-    },
     methods: {
       loadData(page = 1) {
         this.$axios.post(`user/album-photos?page=${page}&name=${this.params.name}&order_by=${this.params.order_by}`)
@@ -159,10 +143,27 @@
         this.viewEditForm = true;
       },
       removeAlbumClick(id){
-        this.$store.dispatch('removeAlbumACTION', id)
+        this.$axios.post(`user/album-photos/remove/${id}`)
+        .then((data) => {
+          if (data.data.success === 1){
+            this.loadData();
+          }
+        })
+        .catch(() => {
+          this.$q.notify({
+            message: this.$t('notification.errors.invalid'),
+            color: 'negative'
+          })
+        })
       },
       submitUpdateAlbum(){
-        this.$store.dispatch('updateAlbumACTION', this.dataEditAlbum)
+        this.$axios.post(`user/album-photos/update/${this.dataEditAlbum.id}`, this.dataEditAlbum)
+        .then((data) => {
+          if (data.data.success === 1) {
+            this.loadData();
+            this.viewEditForm = false;
+          }
+        })
       },
       loadImagesFromAlbum(album_id) {
         this.$emit('images', album_id)

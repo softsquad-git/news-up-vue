@@ -14,6 +14,18 @@ export default {
       title: 'Płeć',
       male: 'Mężczyzna',
       female: 'Kobieta'
+    },
+    activate: {
+      title: 'Aktywuj konto',
+      key: 'Wpisz kod aktywacyjny',
+      success: 'Twoje konto zostało aktywowane',
+      invalid: 'Coś poszło nie tak, spróbuj ponownie',
+      refresh: 'Przypomnij kod',
+      refreshSuccess: 'Nowy kod został wysłany na podany adres e-mail'
+    },
+    notify: {
+      registerSuccess: 'Konto zostało pomyślnie utworzone',
+      401: 'Podano nieprawidłowe dane'
     }
   },
   navBar: {
@@ -89,7 +101,8 @@ export default {
   notification: {
     errors: {
       loadData: 'Nie udało się załadować danych',
-      validData: 'Popraw błędy i spróbuj ponownie'
+      validData: 'Popraw błędy i spróbuj ponownie',
+      invalid: 'Coś poszło nie tak'
     },
     success: {
       loadData: 'Dane załadowane pomyślnie',
@@ -159,7 +172,9 @@ export default {
           },
           email: {
             new: 'Wpisz nowy adres e-mail ...',
-            key: 'Wpisz kod weryfikujący'
+            key: 'Wpisz kod weryfikujący',
+            successUpdate: 'Adres e-mail został zmieniony. Zaloguj się ponownie a następnie potwierdź swoje konto',
+            sendKey: 'Wysłano kod weryfikacyjny'
           }
         },
         avatar: {
@@ -194,6 +209,14 @@ export default {
             content: 'Wpisz treść ...',
             images: 'Dodaj zdjęcia'
           }
+        },
+        notify: {
+          successCreateGroup: 'Grupa została utworzona',
+          successCreatePost: 'Post został dodany',
+          successEditGroup: 'Dane grupy zostały zmienione',
+          successEditPostGroup: 'Post został zmieniony',
+          removeGroup: 'Grupa została usunięta',
+          removePost: 'Post został usunięty'
         }
       },
       albums: {
@@ -235,7 +258,11 @@ export default {
           isRating: 'Możliwość oceniania',
           isComment: 'Możliwość komentowania',
           location: 'Lokalizacja',
-          content: 'Treść'
+          content: 'Treść',
+        },
+        notify: {
+          successRemove: 'Artykuł został usunięty',
+          successUpdate: 'Artykuł został zmieniony'
         },
         options: {
           title: 'Opcje',

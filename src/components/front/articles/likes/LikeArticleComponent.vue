@@ -16,8 +16,6 @@
 </template>
 
 <script>
-  import {mapGetters} from 'vuex'
-
   export default {
     name: "LikeArticleComponent",
     data() {
@@ -41,23 +39,25 @@
     mounted() {
       this.likeOrNot()
     },
-    computed: {
-      ...mapGetters({
-        like: 'like',
-        errors: 'errorsLike'
-      }),
-    },
-    watch: {
-      like() {
-        this.likeOrNot();
-        this.$emit('loadData')
-      }
-    },
     methods: {
       setLike(like) {
         if (localStorage.getItem('token')){
           this.data.like = like;
-          this.$store.dispatch('setLike', this.data)
+          this.$axios.post('like', this.data)
+          .then((data) => {
+            if (data.data.success === 1){
+              this.likeOrNot();
+              this.$emit('loadData');
+            }
+          })
+          .catch((error) => {
+            if (error.response.status === 422) {
+              this.$q.notify({
+                message: this.$t('notification.info.reloadPage'),
+                color: 'warning'
+              })
+            }
+          })
         }else{
           this.$q.notify({
             message: this.$t('errors.please_login'),
@@ -83,7 +83,10 @@
               }
             })
             .catch(() => {
-              //
+              this.$q.notify({
+                message: this.$t('notification.errors.loadData'),
+                color: 'warning'
+              })
             })
         }
     },

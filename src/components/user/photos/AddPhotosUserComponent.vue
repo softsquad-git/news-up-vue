@@ -2,7 +2,7 @@
   <q-dialog v-model="viewModalUploader" persistent>
     <q-card class="modal__photos">
       <q-card-section>
-        <div class="text-h6">
+        <div class="text-h6" :class="$q.dark.isActive ? 'account__title_dark' : ''">
           {{ this.$t('account.pages.albums.photos.create.title') }}
         </div>
       </q-card-section>
@@ -40,8 +40,6 @@
 </template>
 
 <script>
-  import {mapGetters} from 'vuex'
-
   export default {
     name: "AddPhotosUserComponent",
     data() {
@@ -51,7 +49,8 @@
           album_id: '',
           photos: ''
         },
-        files: ''
+        files: '',
+        errors: []
       }
     },
     props: {
@@ -64,7 +63,7 @@
       uploadFileSubmit() {
         this.data.photos = this.$refs.files.files;
         let formData = new FormData();
-        for (var i = 0; i < this.data.photos.length; i++) {
+        for (let i = 0; i < this.data.photos.length; i++) {
           let photo = this.data.photos[i];
           formData.append('photos[' + i + ']', photo, photo.name);
           formData.append('album_id', this.data.album_id);
@@ -78,6 +77,13 @@
           this.viewModalUploader = false;
           this.data.album_id = '';
           this.$parent.loadData();
+        })
+        .catch((error) => {
+          this.errors = error.response.data.errors;
+          this.$q.notify({
+            message: this.$t('notification.errors.invalid'),
+            color: 'negative'
+          })
         })
       },
       uploadFile() {

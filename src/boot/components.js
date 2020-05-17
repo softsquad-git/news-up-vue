@@ -6,7 +6,6 @@ import VueCarousel from 'vue-carousel';
 import Pagination from 'laravel-vue-pagination'
 window.$ = window.jQuery = jQuery;
 
-
 export default async ({Vue}) => {
   $;
   Vue.use(Lingallery);

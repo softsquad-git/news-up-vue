@@ -3,7 +3,7 @@
     <div class="profile__user_header">
       <div class="row">
         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-xs-12">
-          <div class="profile___user__header_title">
+          <div class="profile___user__header_title" :class="$q.dark.isActive ? 'account__title_dark' : ''">
             {{ this.$t('account.pages.titles.friends') }}
           </div>
         </div>

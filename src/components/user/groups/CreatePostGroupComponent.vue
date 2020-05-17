@@ -7,7 +7,7 @@
                      :placeholder="this.$t('account.pages.groups.posts.create.content')"/>
           </div>
           <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin: 10px 5px 10px 0">
-            <q-btn v-on:click="sUploadImage ^= true" round icon="photo" size="xs"/>
+            <q-btn v-on:click="sUploadImage ^= true" round icon="photo" :class="$q.dark.isActive ? 'account-color' : ''" size="xs"/>
           </div>
           <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-xs-12">
             <q-uploader
@@ -21,7 +21,7 @@
             </q-uploader>
           </div>
           <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <q-btn type="submit" class="" flat :label="this.$t('buttons.save')"/>
+            <q-btn type="submit" flat :label="this.$t('buttons.save')"/>
           </div>
         </div>
       </q-form>
@@ -39,7 +39,8 @@
           group_id: this.$route.params.id,
           content: '',
           images: []
-        }
+        },
+        errors: []
       }
     },
     methods: {
@@ -60,21 +61,26 @@
       },
       saveData(data){
         this.$axios.post('user/groups/posts/store', data)
-          .then(() => {
-            this.$parent.loadData();
-            this.$q.notify({
-              message: 'Post created success',
-              color: 'positive'
-            });
-            this.data.content = '';
-            this.data.images = [];
-            this.sUploadImage = false;
+          .then((data) => {
+            if (data.data.success === 1) {
+              this.$parent.loadData();
+              this.$q.notify({
+                message: this.$t('account.groups.notify.successCreatePost'),
+                color: 'positive'
+              });
+              this.data.content = '';
+              this.data.images = [];
+              this.sUploadImage = false;
+            }
           })
-          .catch(() => {
-            this.$q.notify({
-              message: 'Something went wrong',
-              color: 'negative'
-            })
+          .catch((error) => {
+            if (error.response.status === 422) {
+              this.errors = error.response.data.errors;
+              this.$q.notify({
+                message: this.$t('notification.errors.invalid'),
+                color: 'negative'
+              })
+            }
           })
       },
       uploadPostImages() {

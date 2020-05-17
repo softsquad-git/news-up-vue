@@ -1,6 +1,5 @@
 <template>
   <div style="margin-bottom: 10px;">
-
     <q-rating
       v-model="data.points"
       max="10"
@@ -21,8 +20,6 @@
 </template>
 
 <script>
-  import {mapGetters} from 'vuex'
-
   export default {
     name: "RatingArticleComponent",
     data() {
@@ -36,28 +33,29 @@
     props: {
       article_id: ''
     },
-    computed: {
-      ...mapGetters({
-        rating: 'rating'
-      })
-    },
-    watch: {
-      rating() {
-        this.data.points = 0;
-        this.$parent.v_show_rating = false;
-        this.$parent.loadData();
-        this.$q.notify({
-          message: this.$q.notify({
-            message: this.$t('global.addRating'),
-            color: 'positive'
-          })
-        })
-      }
-    },
     methods: {
       setRatingArticle() {
         if (localStorage.getItem('token')) {
-          this.$store.dispatch('setRatingArticle', this.data)
+          this.$axios.post('article-rating', this.data)
+            .then((data) => {
+              if (data.data.success === 1) {
+                this.data.points = 0;
+                this.$parent.v_show_raing = false;
+                this.$parent.loadData();
+                this.$q.notify({
+                  message: this.$t('global.addRating'),
+                  color: 'positive'
+                })
+              }
+            })
+            .catch((error) => {
+              if (error.response.status === 422) {
+                this.$q.notify({
+                  message: this.$t('notification.info.reloadPage'),
+                  color: 'warning'
+                })
+              }
+            })
         } else {
           this.$q.notify({
             message: this.$t('errors.please_login'),

@@ -16,29 +16,28 @@
 </template>
 
 <script>
-  import {mapGetters} from 'vuex'
-  import NoDataComponent from "../../NoDataComponent";
-  import DeleteFriendComponent from "./DeleteFriendComponent";
-
+  import DeleteFriendComponent from "./DeleteFriendComponent"
   export default {
     name: "FriendsUserComponent",
     data(){
       return{
-        name: ''
+        name: '',
+        friends: []
       }
     },
-    components: {DeleteFriendComponent, NoDataComponent},
-    computed: {
-      ...mapGetters({
-        friends: 'userFriends'
-      })
-    },
-    watch: {
-      //
-    },
+    components: {DeleteFriendComponent},
     methods: {
       loadData() {
-        this.$store.dispatch('getUserFriends', this.name)
+        this.$axios.post(`user/friends?name=${this.name}`)
+        .then((data) => {
+          this.friends = data.data.data;
+        })
+        .catch(() => {
+          this.$q.notify({
+            message: this.$t('notification.errors.loadData'),
+            color: 'negative'
+          })
+        })
       },
     },
     created() {

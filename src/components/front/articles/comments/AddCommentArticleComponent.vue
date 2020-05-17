@@ -1,5 +1,6 @@
 <template>
   <div>
+    <errors v-if="errors" :errors="errors"/>
     <q-form @submit="submitCommentForm">
       <q-input
         type="textarea"
@@ -18,8 +19,10 @@
 </template>
 
 <script>
+  import Errors from "src/common/ErrorsComponent";
   export default {
     name: "AddCommentArticleComponent",
+    components: {Errors},
     data() {
       return {
         data: {
@@ -37,20 +40,24 @@
     methods: {
       submitCommentForm() {
         this.$axios.post('comments/store', this.data)
-          .then(() => {
-            this.$parent.loadData();
-            this.data.content = '';
-            this.$q.notify({
-              message: this.$t('global.addComment'),
-              color: 'positive'
-            })
+          .then((data) => {
+           if (data.data.success === 1) {
+             this.$parent.loadData();
+             this.data.content = '';
+             this.$q.notify({
+               message: this.$t('global.addComment'),
+               color: 'positive'
+             })
+           }
           })
           .catch((error) => {
-            this.errors = error.response.data.errors;
-            this.$q.notify({
-              message: this.$t('notification.errors.validData'),
-              color: 'negative'
-            })
+           if (error.response.status === 422) {
+             this.errors = error.response.data.errors;
+             this.$q.notify({
+               message: this.$t('notification.errors.validData'),
+               color: 'negative'
+             })
+           }
           })
       }
     }

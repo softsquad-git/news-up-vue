@@ -5,11 +5,11 @@
         <create-post-group-component/>
       </div>
       <div class="col-lg-12" v-for="post in posts">
-        <div class="posts-group">
+        <div class="posts-group" :class="$q.dark.isActive ? 'posts-group_dark' : ''">
           <div class="posts-group-header">
             <div class="row">
               <div class="col-xl-9 col-lg-9 col-md-9 col-sm-7 col-xs-7">
-                <div class="posts-group-author">
+                <div class="posts-group-author" :class="$q.dark.isActive ? 'posts-group-author_dark' : ''">
                   <q-img style="width: 40px;height: 40px;border-radius: 50%;" :src="post.user.avatar"
                          :alt="post.user.s.name"/>
                   <span class="fullname">
@@ -52,7 +52,7 @@
               </viewer>
             </div>
           </div>
-          <div class="posts-group-footer">
+          <div class="posts-group-footer" :style="$q.dark.isActive ? 'border-color: #42562b' : ''">
             <like-article-component style="float: left;margin-right: 5px;" :resource_type="'POST_GROUP'"
                                     @loadData="loadData" :resource_id="post.id" :c_likes_down="post.c_likes_down"
                                     :c_likes_up="post.c_likes_up"/>
@@ -157,22 +157,27 @@
           })
           .catch(() => {
             this.$q.notify({
-              message: 'Failed load data',
+              message: this.$t('notification.errors.loadData'),
               color: 'negative'
             })
           })
       },
       removePost(id) {
         this.$axios.post('user/groups/posts/remove/' + id)
-          .then(() => {
-            this.loadData();
-            this.$q.notify({
-              message: 'Removed post success',
-              color: 'positive'
-            })
+          .then((data) => {
+            if (data.data.success === 1) {
+              this.loadData();
+              this.$q.notify({
+                message: this.$t('account.groups.notify.removePost'),
+                color: 'positive'
+              })
+            }
           })
-          .catch((error) => {
-            //
+          .catch(() => {
+            this.$q.notify({
+              message: this.$t('notification.errors.invalid'),
+              color: 'negative'
+            })
           })
       },
       submitEditPost() {

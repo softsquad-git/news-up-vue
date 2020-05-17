@@ -93,17 +93,22 @@
             this.answersComment = true;
           })
           .catch(() => {
-            //
+            this.$q.notify({
+              message: this.$t('notification.errors.loadData'),
+              color: 'warning'
+            })
           });
       },
       removeReply(id) {
         this.$axios.post(`comments/reply/remove/${id}`)
-          .then(() => {
-            this.view(this.commentID);
-            this.$q.notify({
-              message: this.$t('global.removeReplyComment'),
-              color: 'positive'
-            })
+          .then((data) => {
+            if (data.data.success === 1) {
+              this.view(this.commentID);
+              this.$q.notify({
+                message: this.$t('global.removeReplyComment'),
+                color: 'positive'
+              })
+            }
           })
           .catch(() => {
             //
@@ -115,18 +120,26 @@
       },
       submitEditReplyForm(id) {
         this.$axios.post(`comments/reply/update/${id}`, this.dataEdit)
-          .then(() => {
-            this.$q.notify({
-              message: this.$t('global.updateReply'),
-              color: 'positive'
-            });
-            this.c();
-            this.view(this.commentID);
-            this.data.id = '';
-            this.data.content = '';
+          .then((data) => {
+            if (data.data.success === 1) {
+              this.$q.notify({
+                message: this.$t('global.updateReply'),
+                color: 'positive'
+              });
+              this.c();
+              this.view(this.commentID);
+              this.data.id = '';
+              this.data.content = '';
+            }
           })
           .catch((error) => {
-            //
+            if (error.response.status === 422) {
+              this.errors = error.response.data.errors;
+              this.$q.notify({
+                message: this.$t('notification.errors.validData'),
+                color: 'negative'
+              })
+            }
           })
       },
       c() {

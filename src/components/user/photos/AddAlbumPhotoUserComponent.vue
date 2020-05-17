@@ -17,8 +17,6 @@
 </template>
 
 <script>
-  import {mapGetters} from 'vuex'
-
   export default {
     name: "AddAlbumPhotoUserComponent",
     data() {
@@ -30,23 +28,18 @@
         }
       }
     },
-    computed: {
-      ...mapGetters({
-        create: 'addAlbum'
-      })
-    },
-    watch: {
-      create() {
-        this.addAlbum = false;
-        this.$parent.loadData()
-      }
-    },
     methods: {
       openModal() {
         this.addAlbum = true
       },
       submitCreateAlbum() {
-        this.$store.dispatch('addAlbumACTION', this.data);
+        this.$axios.post('user/album-photos/store', this.data)
+        .then((data) => {
+          if (data.data.success === 1) {
+            this.addAlbum = false;
+            this.$parent.loadData();
+          }
+        })
       }
     }
   }

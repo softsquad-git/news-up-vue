@@ -11,7 +11,9 @@
           .then(() => {
             localStorage.removeItem('token');
             localStorage.removeItem('userId');
-            this.$router.push({name: 'IndexPage'})
+            this.$router.push({name: 'IndexPage'});
+            localStorage.removeItem('darkMode');
+            window.location.reload();
           })
       }
     },

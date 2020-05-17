@@ -23,7 +23,7 @@
             .then((data) => this.images = data.data.data)
             .catch((error) => {
               this.$q.notify({
-                message: 'Failed load data',
+                message: this.$t('notification.errors.loadData'),
                 color: 'positive'
               })
             })

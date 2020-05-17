@@ -39,17 +39,8 @@
         data: {
           recipient_id: ''
         },
-        peoples: {}
-      }
-    },
-    computed: {
-      ...mapGetters({
-        s_invitation: 'sendInvitation'
-      })
-    },
-    watch: {
-      s_invitation() {
-        //
+        peoples: {},
+        errors: []
       }
     },
     methods: {
@@ -71,7 +62,21 @@
       },
       sendInvitationClick(id) {
         this.data.recipient_id = id;
-        this.$store.dispatch('sendInvitationACTION', this.data);
+        this.$axios.post('user/friends/add', this.data)
+        .then((data) => {
+          if (data.data.success === 1) {
+            //
+          }
+        })
+        .catch((error) => {
+          if (error.response.status === 422) {
+            this.errors = error.response.data.errors;
+            this.$q.notify({
+              message: this.$t('notification.errors.invalidData'),
+              color: 'negative'
+            })
+          }
+        })
       }
     },
     created() {

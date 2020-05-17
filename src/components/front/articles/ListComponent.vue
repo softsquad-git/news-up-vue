@@ -122,6 +122,12 @@
           .then((data) => {
             this.articles = data.data
           })
+        .catch(() => {
+          this.$q.notify({
+            message: this.$t('notification.errors.loadData'),
+            color: 'negative'
+          })
+        })
       },
       loadDataCategories() {
         this.$axios.post('categories-all')

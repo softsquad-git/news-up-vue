@@ -32,7 +32,8 @@
     "vue-quill-editor": "^3.0.6",
     "vue-quill-editor-upload": "^1.1.0",
     "vue-template-compiler": "^2.6.11",
-    "vue2-editor": "^2.10.2"
+    "vue2-editor": "^2.10.2",
+    "vuelidate": "^0.7.5"
   },
   "devDependencies": {
     "@quasar/app": "^1.8.5"

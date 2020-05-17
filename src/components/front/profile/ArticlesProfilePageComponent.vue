@@ -38,46 +38,32 @@
 </template>
 
 <script>
-  import {mapGetters} from 'vuex'
-
   export default {
     name: "ArticlesProfilePageComponent",
     data() {
       return {
         params: {
           user_id: this.user_id,
-          title: '',
-          category_id: ''
         },
-        isShowSearchForm: false
+        articles: []
       }
-    },
-    props: {
-      user_id: ''
-    },
-    computed: {
-      ...mapGetters({
-        articles: 'articlesUserP',
-        categories: 'categories'
-      })
-    },
-    watch: {
-      //
     },
     methods: {
       loadData() {
-        this.$store.dispatch('getArticlesUserP', this.params)
+        this.$axios.post(`profile-page/articles?user_id=${this.params.user_id}`)
+        .then((data) => {
+          this.articles = data.data.data;
+        })
+        .catch(() => {
+          this.$q.notify({
+            message: this.$t('notification.errors.loadData'),
+            color: 'negative'
+          })
+        })
       },
-      loadDataCategories() {
-        this.$store.dispatch('getCategories')
-      },
-      searchArticlesInProfile() {
-        this.loadData();
-      }
     },
-    created() {
+    mounted() {
       this.loadData();
-      this.loadDataCategories();
     }
   }
 </script>

@@ -19,27 +19,29 @@
 </template>
 
 <script>
-  import {mapGetters} from 'vuex'
-  import NoDataComponent from "../../NoDataComponent";
   import DeleteFriendComponent from "./DeleteFriendComponent";
+  import NoDataComponent from "src/common/NoDataComponent";
 
   export default {
     name: "SentInvitationsComponent",
-    components: {DeleteFriendComponent, NoDataComponent},
+    components: {NoDataComponent, DeleteFriendComponent},
     data() {
-      return {}
-    },
-    computed: {
-      ...mapGetters({
-        friends: 'sentInvitations'
-      })
-    },
-    watch: {
-      //
+      return {
+        friends: []
+      }
     },
     methods: {
       loadData() {
-        this.$store.dispatch('getSentInvitations')
+        this.$axios.post('user/friends/sent')
+        .then((data) => {
+          this.friends = data.data.data;
+        })
+        .catch(() => {
+          this.$q.notify({
+            message: this.$t('notification.errors.loadData'),
+            color: 'negative'
+          })
+        })
       },
     },
     created() {

@@ -61,29 +61,28 @@
 </template>
 
 <script>
-  import {mapGetters} from 'vuex';
-
   export default {
     name: "ShowArticleUser",
     data() {
       return {
         openShowArticle: false,
-        maximizedToggle: true
-      }
-    },
-    computed: {
-      ...mapGetters({
-        article: '_userShowArticle'
-      })
-    },
-    watch: {
-      article(){
-        this.openShowArticle = true;
+        maximizedToggle: true,
+        article: {}
       }
     },
     methods: {
       loadData(id) {
-        this.$store.dispatch('userShowArticleACTION', id)
+        this.$axios.post(`user/articles/item/${id}`)
+        .then((data) => {
+          this.article = data.data.data;
+          this.openShowArticle = true;
+        })
+        .catch(() => {
+          this.$q.notify({
+            message: this.$t('notification.errors.loadData'),
+            color: 'warning'
+          })
+        })
       }
     }
   }
