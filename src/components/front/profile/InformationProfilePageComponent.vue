@@ -38,7 +38,7 @@
         </tr>
         <tr>
           <td>{{ this.$t('profilePage.pages.information.created') }}</td>
-          <td>{{ user.created_at }}</td>
+          <td>{{ user.created_at | moment('calendar') }}</td>
         </tr>
         </tbody>
       </table>

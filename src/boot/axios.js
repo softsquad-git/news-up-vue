@@ -15,6 +15,12 @@ if (jwtToken){
       refreshToken();
     }
   })
+  if (localStorage.getItem('token') === undefined) {
+    localStorage.removeItem('token');
+    localStorage.removeItem('userId');
+    localStorage.removeItem('darkMode');
+    window.location.reload();
+  }
 }
 
 function setHeaderToken() {

@@ -10,6 +10,23 @@ export default {
     birthday: 'Data urodzenia',
     remember: 'Zapamiętaj mnie',
     acceptTerms: 'Akceptuję regulamin serwisu',
+    remove_account: 'Usuń swoje konto',
+    forgot: {
+      title: 'Przypomnij hasło',
+      email: 'E-mail',
+      enterEmail: 'Wpisz adres e-mail',
+      sendKey: 'Wysłano kod',
+      emptyAccount: 'Konto o danym adresie nie istnieje',
+      key: 'Otrzymany kod',
+      newPassword: 'Nowe hasło do konta',
+      newKey: 'Wygeneruj nowy kod',
+      NNNEmptyKey: 'Posiadam już kod',
+      keyInvalid: 'Podany kod jest nieprawidłowy lub nie istnieje',
+      password: 'Wpisz nowe hasło',
+      notify: {
+        successChange: 'Hasło do konta zostało zmienione'
+      }
+    },
     sex: {
       title: 'Płeć',
       male: 'Mężczyzna',
@@ -179,6 +196,11 @@ export default {
         },
         avatar: {
           title: 'Zdjęcie profilowe'
+        },
+        password: {
+          old: 'Wpisz obecne hasło',
+          new: 'Wpisz nowe hasło',
+          successUpdate: 'Hasło zostało zmienione'
         }
       },
       groups: {
@@ -349,5 +371,9 @@ export default {
     addReplyComment: 'Odpowiedź została dodana',
     updateReply: 'Odpowiedź została zmieniona',
     updatedComment: 'Komentarz został zmieniony'
+  },
+  chat: {
+    friends: 'Znajomi',
+    conversations: 'Konwersacje'
   }
 }

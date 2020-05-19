@@ -24,6 +24,26 @@ const routes = [
         }
       },
       {
+        path: 'forgot-password',
+        name: 'ForgotPassword',
+        component: () => import('components/auth/ForgotPassword.vue'),
+        meta: {
+          title: 'Przypomnij hasło',
+          description: '',
+          middleware: [guest]
+        }
+      },
+      {
+        path: 'new-password',
+        name: 'NewPassword',
+        component: () => import('components/auth/NewPasswordComponent.vue'),
+        meta: {
+          title: 'Utwórz nowe hasło',
+          description: '',
+          middleware: [guest]
+        }
+      },
+      {
         path: 'register',
         name: 'Register',
         component: () => import('components/auth/Register.vue'),
@@ -88,7 +108,13 @@ const routes = [
     },
     component: () => import('layouts/UserLayout'),
     children: [
-      {path: '', name: 'Profile', component: () => import('pages/Profile.vue'), meta: {middleware: [auth]}, title: 'Twoje konto'},
+      {
+        path: '',
+        name: 'Profile',
+        component: () => import('pages/Profile.vue'),
+        meta: {middleware: [auth]},
+        title: 'Twoje konto'
+      },
       {
         path: 'article/list',
         name: 'ArticlesListUser',

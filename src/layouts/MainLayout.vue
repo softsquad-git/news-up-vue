@@ -10,7 +10,7 @@
           </q-toolbar-title>
         </q-btn>
         <q-toolbar-title/>
-        <q-btn flat round dense icon="perm_phone_msg"/>
+        <q-btn @click="showChat = !showChat" flat round dense icon="perm_phone_msg"/>
         <q-btn-dropdown stretch flat icon-right="account_circle">
           <q-list>
             <div v-if="!logged">
@@ -161,20 +161,33 @@
         <router-view/>
       </div>
     </q-page-container>
+    <q-drawer
+      v-model="showChat"
+      side="right"
+      bordered
+      :width="300"
+      class="drawer-chat"
+    >
+      <q-scroll-area class="fit">
+        <chat-component/>
+      </q-scroll-area>
+    </q-drawer>
   </q-layout>
 </template>
 
 <script>
   import Logo from "../common/Logo";
+  import ChatComponent from "components/chat/ChatComponent";
   export default {
     name: 'MainLayout',
 
-    components: {Logo},
+    components: {ChatComponent, Logo},
 
     data() {
       return {
         logged: localStorage.getItem('token'),
         showDrawer: false,
+        showChat: false,
         titles: {
           home: this.$t('navBar.pages.home'),
           articles: this.$t('navBar.pages.articles'),

@@ -12,10 +12,12 @@
         </div>
       </div>
     </div>
+  </div>
+  <div class="row">
     <viewer :images="images">
-      <div class="row">
+      <div class="row" style="padding: 0 10px;">
         <div class="col-xl-1 col-lg-1 col-md-2 col-sm-2 col-xs-4" v-for="src in images" :key="src">
-          <img class="full-width posts-group-content-img" :src="src">
+          <img class="full-width posts-group-content-img" :alt="src" :src="src">
         </div>
       </div>
     </viewer>
@@ -24,6 +26,11 @@
 </template>
 
 <script>
+  import 'viewerjs/dist/viewer.css'
+import Viewer from 'v-viewer'
+import Vue from 'vue'
+
+Vue.use(Viewer)
   export default {
     name: "AlbumsProfilePageComponent",
     data() {

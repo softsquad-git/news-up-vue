@@ -1,0 +1,33 @@
+.chatTitlePage {
+  padding: 10px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.q-drawer-container.drawer-chat aside {
+  position: fixed;
+}
+.window-conversation {
+  padding: 5px;
+  border: 1px solid #e0e0e0;
+  margin: 5px;
+  border-radius: 3px;
+  height: 350px;
+  position: relative;
+}
+.header-window-conversation {
+  border-bottom: 1px solid #e0e0e0;
+  font-size: 15px;
+  padding-bottom: 5px;
+}
+
+.footer-window-conversation {
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  height: 26%;
+}
+.content-window-conversation {
+  height: 74%;
+  overflow: scroll;
+}

@@ -45,7 +45,7 @@
         </q-form>
       </div>
     </div>
-    <div v-for="article in articles.data" :key="article.id" class="col-xl-2 col-lg-2 col-md-4 col-sm-6 col-xs-12 articles__list_front">
+    <div v-if="articles.length > 0" v-for="article in articles.data" :key="article.id" class="col-xl-2 col-lg-2 col-md-4 col-sm-6 col-xs-12 articles__list_front">
       <div class="image__article_list" v-bind:style="{ backgroundImage: 'url(' + article.image + ')' }">
         <follow-article-component :c_follows="article.follows" :resource_id="article.id" :resource_type="'ARTICLE'"/>
         <div class="footer__article_list">
@@ -71,6 +71,9 @@
         </div>
       </div>
     </div>
+    <div v-else>
+      <no-data-component/>
+    </div>
     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
       <pagination :data="articles" @pagination-change-page="loadData">
         <span slot="prev-nav"><q-icon name="skip_previous"/></span>
@@ -82,10 +85,11 @@
 
 <script>
   import FollowArticleComponent from "./follows/FollowArticleComponent";
+  import NoDataComponent from "src/common/NoDataComponent";
 
   export default {
     name: "Articles",
-    components: {FollowArticleComponent},
+    components: {NoDataComponent, FollowArticleComponent},
     data() {
       return {
         search: {

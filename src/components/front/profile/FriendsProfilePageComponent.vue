@@ -15,7 +15,9 @@
             </div>
           </div>
         </div>
-        <no-data-component/>
+        <div v-else>
+<!--          <no-data-component/>-->
+        </div>
       </div>
     </div>
   </div>

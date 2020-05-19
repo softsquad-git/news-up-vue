@@ -7,7 +7,6 @@
           <div class="col-xl-3 col-lg-3 col-md-3 col-sm-4 col-xs-12" v-for="image in images.data">
             <div class="profile__user__list_photos text-right"
                  v-bind:style="{ backgroundImage: 'url(' + image.src + ')' }">
-              <q-icon @click="lookPhoto(image.src)" class="album__user__photos_content_icon" name="search"/>
               <q-icon @click="removePhoto(image.id)" class="album__user__photos_content_icon" name="delete"/>
             </div>
           </div>
@@ -46,9 +45,6 @@
         .then((data) => {
           this.images = data.data;
         })
-      },
-      lookPhoto(src) {
-        //
       },
       removePhoto(id) {
         this.$axios.post(`user/photos/remove/${id}`)

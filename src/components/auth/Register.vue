@@ -14,6 +14,7 @@
                     type="text"
                     :placeholder="this.$t('auth.name')"
                     :label="this.$t('auth.name')"
+                    v-model="data.name"
                     name="name"
                   />
                 </div>
@@ -70,6 +71,11 @@
               />
             </q-form>
             <errors-component v-if="errorsV" :errors="errorsV"/>
+            <div class="row" style="margin-top: 10px;">
+              <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <router-link :to="{name: 'Login'}" style="color:green">{{this.$t('auth.login')}}</router-link>
+              </div>
+            </div>
           </q-card-action>
         </q-card>
       </div>

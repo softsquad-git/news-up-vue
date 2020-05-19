@@ -30,6 +30,14 @@
                 type="submit"
               />
             </q-form>
+            <div class="row" style="margin-top: 10px;">
+              <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                <router-link :to="{name: 'ForgotPassword'}" style="color: #ff0a0a;margin-top: 10px;">{{ this.$t('auth.forgot.title') }}</router-link>
+              </div>
+              <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                <router-link :to="{name: 'Register'}" style="margin-top: 10px;color: green">{{ this.$t('auth.register') }}</router-link>
+              </div>
+            </div>
             <errors v-if="errors" :errors="errors"/>
           </q-card-action>
         </q-card>

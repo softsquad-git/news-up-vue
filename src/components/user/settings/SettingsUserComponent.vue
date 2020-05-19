@@ -78,6 +78,23 @@
             </div>
           </q-form>
         </div>
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+          <q-form @submit.prevent="submitUpdatePassword">
+            <div class="row">
+              <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                <q-input type="password" v-model="dataUpdatePassword.old_password"
+                         :placeholder="this.$t('account.pages.settings.password.old')"/>
+              </div>
+              <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <q-input type="password" v-model="dataUpdatePassword.new_password"
+                         :placeholder="this.$t('account.pages.settings.password.new')"/>
+              </div>
+              <div class="col-xl-1 col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                <q-btn style="margin-top: 19px;border-radius: 0" type="submit" class="full-width" icon="send"/>
+              </div>
+            </div>
+          </q-form>
+        </div>
       </div>
       <div class="row" style="margin-top: 50px;">
         <div class="col-lg-3">
@@ -113,7 +130,11 @@
         dataUpdateEmail: {
           _key: ''
         },
-        isTmpEmail: true
+        dataUpdatePassword: {
+          old_password: '',
+          new_password: ''
+        },
+        isTmpEmail: true,
       }
     },
     methods: {
@@ -186,26 +207,54 @@
               })
             }
           })
+      },
+      submitUpdatePassword() {
+        this.$axios.post('user/settings/update-password', this.dataUpdatePassword)
+        .then((data) => {
+          if (data.data.success === 1) {
+            this.$q.notify({
+              message: this.$t('account.pages.settings.password.successUpdate'),
+              color: 'positive'
+            });
+            this.$router.push({name: 'LogoutUser'})
+          } else if (data.data.success === 0) {
+            this.$q.notify({
+              message: data.data.msg,
+              color: 'warning'
+            })
+          }
+        })
+        .catch((error) => {
+          if (error.response.status === 422) {
+            this.$q.notify({
+              message: this.$t('notification.errors.invalid'),
+              color: 'negative'
+            })
+          }
+        })
+      },
+      loadData() {
+        this.$axios.post('user')
+          .then((data) => {
+            this.user = data.data.data;
+            this.data.name = this.user.s.name;
+            this.data.last_name = this.user.s.last_name;
+            this.data.number_phone = this.user.s.number_phone;
+            this.data.city = this.user.s.city;
+            this.data.post_code = this.user.s.post_code;
+            this.data.address = this.user.s.address;
+            this.data.sex = this.user.s.sex;
+          })
+          .catch(() => {
+            this.$q.notify({
+              message: this.$t('notification.errors.loadData'),
+              color: 'warning'
+            })
+          })
       }
     },
     created() {
-      this.$axios.post('user')
-        .then((data) => {
-          this.user = data.data.data;
-          this.data.name = this.user.s.name;
-          this.data.last_name = this.user.s.last_name;
-          this.data.number_phone = this.user.s.number_phone;
-          this.data.city = this.user.s.city;
-          this.data.post_code = this.user.s.post_code;
-          this.data.address = this.user.s.address;
-          this.data.sex = this.user.s.sex;
-        })
-        .catch(() => {
-          this.$q.notify({
-            message: this.$t('notification.errors.loadData'),
-            color: 'warning'
-          })
-        })
+      this.loadData();
       this.checkTryEmail();
     }
   }

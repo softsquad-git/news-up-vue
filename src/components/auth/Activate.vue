@@ -27,7 +27,8 @@
                 </div>
               </div>
             </q-form>
-            <q-btn type="button" @click="refreshLink" color="negative" flat size="sm" :label="this.$t('auth.activate.refresh')"/>
+            <q-btn type="button" class="float-left" @click="refreshLink" color="negative" flat size="sm" :label="this.$t('auth.activate.refresh')"/>
+            <q-btn type="button" @click="removeAccount" color="negative" flat size="sm" :label="this.$t('auth.remove_account')"/>
           </q-card-action>
           <errors v-if="errors" :errors="errors"/>
         </q-card>
@@ -74,6 +75,28 @@
               color: 'negative'
             })
           }
+        })
+      },
+      removeAccount()
+      {
+        this.$axios.post('user/remove-account')
+        .then((data) => {
+          if (data.data.success === 1) {
+            localStorage.removeItem('token');
+            localStorage.removeItem('userId');
+            this.$router.push({name: 'IndexPage'});
+            this.$q.notify({
+              message: this.$t('notification.success.successOperation'),
+              color: 'positive'
+            })
+            window.location.reload();
+          }
+        })
+        .catch(() => {
+          this.$q.notify({
+            message: this.$t('notification.errors.invalid'),
+            color: 'negative'
+          })
         })
       },
       refreshLink()

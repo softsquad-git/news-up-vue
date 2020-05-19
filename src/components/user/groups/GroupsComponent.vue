@@ -36,7 +36,7 @@
     </div>
     <div class="profile__user_content">
       <div class="row">
-        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-bottom: 20px;"
+        <div v-if="groups.length > 0" class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-bottom: 20px;"
              v-for="group in groups">
           <div class="groups-list" :class="$q.dark.isActive ? 'text-light' : ''">
             <div class="groups-list-header">
@@ -80,6 +80,9 @@
             </div>
           </div>
         </div>
+        <div v-else>
+          <no-data-component/>
+        </div>
       </div>
     </div>
   </div>
@@ -87,9 +90,11 @@
 
 <script>
   import PostsGroupComponent from "./PostsGroupComponent";
+  import NoDataComponent from "src/common/NoDataComponent";
 
   export default {
     name: "GroupsComponent",
+    components: {NoDataComponent},
     data() {
       return {
         title: this.$t('account.pages.titles.groups'),
